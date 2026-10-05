@@ -1,0 +1,152 @@
+{
+  "model_name": "Tuned Gradient Boosting Classifier",
+  "metrics_test": {
+    "accuracy": 0.9938,
+    "precision": 0.9791,
+    "recall": 0.9842,
+    "f1": 0.9816,
+    "roc_auc": 0.9992
+  },
+  "metrics_cv": {
+    "accuracy": 0.9551,
+    "precision": 0.9056,
+    "recall": 0.8193,
+    "f1": 0.8597,
+    "roc_auc": 0.9729
+  },
+  "feature_columns": [
+    "Tenure",
+    "CityTier",
+    "WarehouseToHome",
+    "HourSpendOnApp",
+    "NumberOfDeviceRegistered",
+    "SatisfactionScore",
+    "NumberOfAddress",
+    "Complain",
+    "OrderAmountHikeFromlastYear",
+    "CouponUsed",
+    "OrderCount",
+    "DaySinceLastOrder",
+    "CashbackAmount",
+    "Tenure_was_missing",
+    "WarehouseToHome_was_missing",
+    "HourSpendOnApp_was_missing",
+    "OrderAmountHikeFromlastYear_was_missing",
+    "OrderCount_was_missing",
+    "CouponUsed_was_missing",
+    "Gender_Male",
+    "MaritalStatus_Married",
+    "MaritalStatus_Single",
+    "PreferredLoginDevice_Mobile_Phone",
+    "PreferredPaymentMode_Credit_Card",
+    "PreferredPaymentMode_Debit_Card",
+    "PreferredPaymentMode_E_wallet",
+    "PreferredPaymentMode_UPI",
+    "PreferedOrderCat_Grocery",
+    "PreferedOrderCat_Laptop_and_Accessory",
+    "PreferedOrderCat_Mobile_Phone",
+    "PreferedOrderCat_Others",
+    "Tenure_New_0_3mo",
+    "Tenure_Loyal_12mo_plus"
+  ],
+  "raw_medians": {
+    "Tenure": 9.0,
+    "WarehouseToHome": 14.0,
+    "HourSpendOnApp": 3.0,
+    "OrderAmountHikeFromlastYear": 15.0,
+    "CouponUsed": 1.0,
+    "OrderCount": 2.0,
+    "DaySinceLastOrder": 3.0
+  },
+  "categorical_options": {
+    "Gender": [
+      "Female",
+      "Male"
+    ],
+    "MaritalStatus": [
+      "Single",
+      "Divorced",
+      "Married"
+    ],
+    "PreferredLoginDevice": [
+      "Mobile Phone",
+      "Computer"
+    ],
+    "PreferredPaymentMode": [
+      "Debit Card",
+      "Credit Card",
+      "E-wallet",
+      "Cash on Delivery",
+      "UPI"
+    ],
+    "PreferedOrderCat": [
+      "Laptop & Accessory",
+      "Mobile Phone",
+      "Fashion",
+      "Grocery",
+      "Others"
+    ]
+  },
+  "defaults": {
+    "Tenure": 9.0,
+    "CityTier": 1.0,
+    "WarehouseToHome": 14.0,
+    "HourSpendOnApp": 3.0,
+    "NumberOfDeviceRegistered": 4.0,
+    "SatisfactionScore": 3.0,
+    "NumberOfAddress": 3.0,
+    "Complain": 0.0,
+    "OrderAmountHikeFromlastYear": 15.0,
+    "CouponUsed": 1.0,
+    "OrderCount": 2.0,
+    "DaySinceLastOrder": 3.0,
+    "CashbackAmount": 163.0,
+    "Gender": "Female",
+    "MaritalStatus": "Single",
+    "PreferredLoginDevice": "Mobile Phone",
+    "PreferredPaymentMode": "Debit Card",
+    "PreferedOrderCat": "Laptop & Accessory"
+  },
+  "feature_importances": [
+    [
+      "Tenure",
+      0.376245718644794
+    ],
+    [
+      "CashbackAmount",
+      0.08666690224987351
+    ],
+    [
+      "WarehouseToHome",
+      0.05275798562206856
+    ],
+    [
+      "NumberOfAddress",
+      0.04330713660524339
+    ],
+    [
+      "DaySinceLastOrder",
+      0.042185159807363426
+    ],
+    [
+      "MaritalStatus_Married",
+      0.04126792371017432
+    ],
+    [
+      "PreferredPaymentMode_Credit_Card",
+      0.04052834811446807
+    ],
+    [
+      "OrderAmountHikeFromlastYear",
+      0.03386081349343923
+    ],
+    [
+      "PreferredPaymentMode_Debit_Card",
+      0.03153062844314886
+    ],
+    [
+      "SatisfactionScore",
+      0.029562282661304742
+    ]
+  ]
+}

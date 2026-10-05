@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChurnGuard AI &bull; Enterprise Customer Retention Intelligence Platform</title>
+  <meta name="description" content="Production E-Commerce Customer Churn Prediction and Decision Support System powered by Tuned Gradient Boosting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body>
+
+<div class="site-wrapper">
+
+  <!-- ================= TOP MAIN HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="header-inner">
+      <!-- Brand & Project Info -->
+      <div class="brand-group">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">ChurnGuard <span class="badge-ai">AI</span></div>
+          <div class="brand-subtitle">Retention Intelligence &bull; IT3051 Production Service</div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Real Website Feel) -->
+      <nav class="nav-tabs" role="tablist" aria-label="Main Navigation">
+        <button type="button" class="tab-link active" data-tab="tab-predictor" role="tab" aria-selected="true" id="nav-predictor">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Retention Predictor
+        </button>
+        <button type="button" class="tab-link" data-tab="tab-cohort" role="tab" aria-selected="false" id="nav-cohort">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Customer Directory
+        </button>
+        <button type="button" class="tab-link" data-tab="tab-roi" role="tab" aria-selected="false" id="nav-roi">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Financial ROI
+        </button>
+        <button type="button" class="tab-link" data-tab="tab-benchmarks" role="tab" aria-selected="false" id="nav-benchmarks">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          Model Specs &amp; Audit
+        </button>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="header-right">
+        <div class="status-pill" title="Model is active and serving real-time inferences">
+          <span class="pulse-dot"></span>
+          <span class="status-text">GB Champion Online</span>
+          <span class="status-metric">F1: <b>85.97%</b></span>
+        </div>
+        <button type="button" class="btn btn-secondary" id="global-reset-btn" title="Reset all telemetry to baseline averages">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN APP BODY ================= -->
+  <main class="site-main">
+
+    <!-- ================================================================= -->
+    <!-- TAB 1: RETENTION PREDICTOR & SIMULATOR (PRIMARY WORKSPACE)       -->
+    <!-- ================================================================= -->
+    <div class="tab-pane active" id="tab-predictor" role="tabpanel">
+
+      <!-- Sub-Bar: Quick Profile Switcher -->
+      <section class="persona-ribbon">
+        <div class="ribbon-label">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <span>Select Sample Customer:</span>
+        </div>
+        <div class="persona-chips" id="persona-chips-container">
+          <button type="button" class="persona-btn active" data-preset="new_churn_risk">
+            <span class="avatar-badge av-red">AP</span>
+            <div class="persona-meta">
+              <span class="p-name">Anika Patel</span>
+              <span class="p-detail">1 mo &bull; Active Ticket</span>
+            </div>
+            <span class="p-badge badge-crit">High Risk (99%)</span>
+          </button>
+
+          <button type="button" class="persona-btn" data-preset="moderate_watch">
+            <span class="avatar-badge av-amber">RK</span>
+            <div class="persona-meta">
+              <span class="p-name">Ravi Kumar</span>
+              <span class="p-detail">5 mo &bull; 18km away</span>
+            </div>
+            <span class="p-badge badge-mod">Watchlist (28%)</span>
+          </button>
+
+          <button type="button" class="persona-btn" data-preset="loyal_vip">
+            <span class="avatar-badge av-green">DS</span>
+            <div class="persona-meta">
+              <span class="p-name">Dinesh Sharma</span>
+              <span class="p-detail">24 mo &bull; VIP Gold</span>
+            </div>
+            <span class="p-badge badge-safe">Loyal Safe (3%)</span>
+          </button>
+
+          <button type="button" class="persona-btn" id="custom-profile-btn">
+            <span class="avatar-badge av-blue">⚙️</span>
+            <div class="persona-meta">
+              <span class="p-name">Custom User</span>
+              <span class="p-detail">Manual Simulation</span>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- 2-Column Responsive Workspace -->
+      <div class="workspace-grid">
+
+        <!-- ================= LEFT COLUMN: INPUT CONTROLS ================= -->
+        <section class="input-column">
+          <div class="section-heading">
+            <div>
+              <h2>Customer Behavioral Telemetry</h2>
+              <p>Adjust customer attributes below &bull; Predictions update automatically in real-time</p>
+            </div>
+            <span class="live-tag"><span class="live-dot"></span> Live Sync</span>
+          </div>
+
+          <form id="churn-form" novalidate>
+
+            <!-- Card 1: Account & Tenure Lifecycle -->
+            <div class="card form-card">
+              <div class="card-header">
+                <div class="card-icon icon-blue">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                  <h3>Account Lifecycle &amp; Demographics</h3>
+                  <p>Customer tenure duration and user segmentation</p>
+                </div>
+              </div>
+
+              <div class="form-body">
+                <!-- Tenure Slider -->
+                <div class="control-row full-width">
+                  <div class="control-header">
+                    <label for="Tenure">Customer Tenure</label>
+                    <span class="val-display" id="Tenure-val">1 mo</span>
+                  </div>
+                  <input type="range" id="Tenure" name="Tenure" min="0" max="36" step="1" value="1">
+                  <div class="control-insight" id="tenure-insight">
+                    <span class="insight-bullet">🚨</span> Critical Hazard Period: First 3 months account for 68.9% of churn (41.9% attrition vs. 5.6% after).
+                  </div>
+                </div>
+
+                <!-- City Tier -->
+                <div class="control-row full-width">
+                  <label class="control-label">Geographic City Tier</label>
+                  <div class="pill-group" data-group="CityTier">
+                    <button type="button" class="pill-btn" data-val="1">Tier 1 (Metro)</button>
+                    <button type="button" class="pill-btn" data-val="2">Tier 2 (Urban)</button>
+                    <button type="button" class="pill-btn active" data-val="3">Tier 3 (Regional)</button>
+                  </div>
+                </div>
+
+                <!-- Marital Status -->
+                <div class="control-row">
+                  <label class="control-label">Marital Status</label>
+                  <div class="pill-group" data-group="MaritalStatus">
+                    <button type="button" class="pill-btn active" data-val="Single">Single (26.7%)</button>
+                    <button type="button" class="pill-btn" data-val="Married">Married (11.5%)</button>
+                    <button type="button" class="pill-btn" data-val="Divorced">Divorced</button>
+                  </div>
+                </div>
+
+                <!-- Gender -->
+                <div class="control-row">
+                  <label class="control-label">Gender</label>
+                  <div class="pill-group" data-group="Gender">
+                    <button type="button" class="pill-btn active" data-val="Female">Female</button>
+                    <button type="button" class="pill-btn" data-val="Male">Male</button>
+                  </div>
+                </div>
+
+                <!-- Devices Registered -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="NumberOfDeviceRegistered">Registered Devices</label>
+                    <span class="val-display" id="NumberOfDeviceRegistered-val">4</span>
+                  </div>
+                  <input type="range" id="NumberOfDeviceRegistered" name="NumberOfDeviceRegistered" min="1" max="6" step="1" value="4">
+                </div>
+
+                <!-- Saved Addresses -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="NumberOfAddress">Saved Delivery Addresses</label>
+                    <span class="val-display" id="NumberOfAddress-val">5</span>
+                  </div>
+                  <input type="range" id="NumberOfAddress" name="NumberOfAddress" min="1" max="15" step="1" value="5">
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Purchasing & Incentives -->
+            <div class="card form-card">
+              <div class="card-header">
+                <div class="card-icon icon-cyan">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                </div>
+                <div>
+                  <h3>Purchasing Cadence &amp; Incentives</h3>
+                  <p>Order recency, cashback rewards, and delivery radius</p>
+                </div>
+              </div>
+
+              <div class="form-body">
+                <!-- Orders Count -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="OrderCount">Monthly Order Count</label>
+                    <span class="val-display" id="OrderCount-val">1</span>
+                  </div>
+                  <input type="range" id="OrderCount" name="OrderCount" min="1" max="16" step="1" value="1">
+                </div>
+
+                <!-- Days Since Order -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="DaySinceLastOrder">Days Since Last Order</label>
+                    <span class="val-display" id="DaySinceLastOrder-val">2 d</span>
+                  </div>
+                  <input type="range" id="DaySinceLastOrder" name="DaySinceLastOrder" min="0" max="30" step="1" value="2">
+                </div>
+
+                <!-- Cashback Amount -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="CashbackAmount">Cashback Earned ($)</label>
+                    <span class="val-display" id="CashbackAmount-val">$120</span>
+                  </div>
+                  <input type="range" id="CashbackAmount" name="CashbackAmount" min="0" max="325" step="5" value="120">
+                  <div class="control-hint">&lt; $140 churn rate is 27.3% vs 14.4% for &ge; $140</div>
+                </div>
+
+                <!-- Coupon Used -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="CouponUsed">Coupons Redeemed</label>
+                    <span class="val-display" id="CouponUsed-val">0</span>
+                  </div>
+                  <input type="range" id="CouponUsed" name="CouponUsed" min="0" max="16" step="1" value="0">
+                </div>
+
+                <!-- Warehouse Distance -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="WarehouseToHome">Warehouse Distance (km)</label>
+                    <span class="val-display" id="WarehouseToHome-val">25 km</span>
+                  </div>
+                  <input type="range" id="WarehouseToHome" name="WarehouseToHome" min="5" max="40" step="1" value="25">
+                </div>
+
+                <!-- Spend Growth YoY -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="OrderAmountHikeFromlastYear">Spend Growth YoY (%)</label>
+                    <span class="val-display" id="OrderAmountHikeFromlastYear-val">11%</span>
+                  </div>
+                  <input type="range" id="OrderAmountHikeFromlastYear" name="OrderAmountHikeFromlastYear" min="11" max="26" step="1" value="11">
+                </div>
+
+                <!-- Preferred Payment Mode -->
+                <div class="control-row">
+                  <label for="PreferredPaymentMode">Preferred Payment Mode</label>
+                  <select id="PreferredPaymentMode" name="PreferredPaymentMode">
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="E-wallet">E-wallet</option>
+                    <option value="Cash on Delivery" selected>Cash on Delivery</option>
+                    <option value="UPI">UPI / Instant Bank</option>
+                  </select>
+                </div>
+
+                <!-- Top Order Category -->
+                <div class="control-row">
+                  <label for="PreferedOrderCat">Top Order Category</label>
+                  <select id="PreferedOrderCat" name="PreferedOrderCat">
+                    <option value="Mobile Phone" selected>Mobile Phone</option>
+                    <option value="Laptop & Accessory">Laptop &amp; Accessory</option>
+                    <option value="Fashion">Fashion &amp; Apparel</option>
+                    <option value="Grocery">Grocery</option>
+                    <option value="Others">Others</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Experience & Sentiment -->
+            <div class="card form-card">
+              <div class="card-header">
+                <div class="card-icon icon-rose">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div>
+                  <h3>Customer Experience &amp; Engagement</h3>
+                  <p>Customer complaints, satisfaction scores, and digital engagement</p>
+                </div>
+              </div>
+
+              <div class="form-body">
+                <!-- Complaint Switch -->
+                <div class="control-row full-width">
+                  <div class="alert-box" id="complaint-alert-box">
+                    <div class="alert-content">
+                      <div class="alert-title">
+                        <span id="complaint-icon">⚠️</span>
+                        <span id="complaint-text">Active Customer Complaint Filed</span>
+                      </div>
+                      <div class="alert-desc">
+                        Customers with open complaints churn at <b>31.7%</b> (2.9&times; the 10.9% rate of complaint-free users).
+                      </div>
+                    </div>
+                    <label class="switch-toggle" title="Toggle complaint status">
+                      <input type="checkbox" id="Complain" name="Complain" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Satisfaction Rating -->
+                <div class="control-row full-width">
+                  <div class="control-header">
+                    <label class="control-label">Satisfaction Rating (1 to 5 Stars)</label>
+                    <span class="val-display" id="SatisfactionScore-val">5 &bull; Highly Satisfied</span>
+                  </div>
+                  <div class="star-rating" data-group="SatisfactionScore">
+                    <button type="button" class="star-btn" data-val="1">★ 1</button>
+                    <button type="button" class="star-btn" data-val="2">★ 2</button>
+                    <button type="button" class="star-btn" data-val="3">★ 3</button>
+                    <button type="button" class="star-btn" data-val="4">★ 4</button>
+                    <button type="button" class="star-btn active" data-val="5">★ 5</button>
+                  </div>
+                </div>
+
+                <!-- Daily App Usage -->
+                <div class="control-row">
+                  <div class="control-header">
+                    <label for="HourSpendOnApp">Hours on App / Day</label>
+                    <span class="val-display" id="HourSpendOnApp-val">2 h</span>
+                  </div>
+                  <input type="range" id="HourSpendOnApp" name="HourSpendOnApp" min="0" max="5" step="1" value="2">
+                </div>
+
+                <!-- Preferred Login Device -->
+                <div class="control-row">
+                  <label class="control-label">Preferred Login Device</label>
+                  <div class="pill-group" data-group="PreferredLoginDevice">
+                    <button type="button" class="pill-btn active" data-val="Mobile Phone">Mobile Phone</button>
+                    <button type="button" class="pill-btn" data-val="Computer">Computer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" id="predict-btn" class="btn btn-primary btn-recalc">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Recalculate Churn Probability
+            </button>
+          </form>
+        </section>
+
+        <!-- ================= RIGHT COLUMN: PREDICTIVE INTEL ================= -->
+        <aside class="intel-column">
+          <div class="section-heading">
+            <div>
+              <h2>Predictive Risk Assessment</h2>
+              <p>Inference engine &bull; Tuned Gradient Boosting Classifier</p>
+            </div>
+          </div>
+
+          <!-- Hero Assessment Card -->
+          <div class="card hero-intel-card">
+            <!-- Active Customer Header -->
+            <div class="active-customer-bar">
+              <div class="c-info">
+                <span class="avatar-lg av-red" id="result-avatar">AP</span>
+                <div>
+                  <div class="c-name" id="result-name">Anika Patel</div>
+                  <div class="c-sub" id="result-meta">Customer ID: #CUST-9428 &bull; Tier 3 Regional</div>
+                </div>
+              </div>
+              <span class="risk-badge badge-crit" id="risk-badge">Critical Risk</span>
+            </div>
+
+            <!-- Speedometer Dial SVG -->
+            <div class="dial-container">
+              <svg viewBox="0 0 220 125" class="speedometer-svg" aria-label="Risk Speedometer">
+                <defs>
+                  <linearGradient id="speedoGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#10b981"/>
+                    <stop offset="30%" stop-color="#f59e0b"/>
+                    <stop offset="65%" stop-color="#f97316"/>
+                    <stop offset="100%" stop-color="#ef4444"/>
+                  </linearGradient>
+                </defs>
+                <!-- Outer background track -->
+                <path d="M 25 110 A 85 85 0 0 1 195 110" class="gauge-track"/>
+                <!-- Colored dynamic arc -->
+                <path d="M 25 110 A 85 85 0 0 1 195 110" class="gauge-arc" id="gauge-circle" pathLength="100" stroke="url(#speedoGrad)"/>
+                <!-- Rotating Needle -->
+                <g id="gauge-needle" class="gauge-needle">
+                  <line x1="110" y1="110" x2="110" y2="35" class="needle-body"/>
+                  <circle cx="110" cy="110" r="7" class="needle-base"/>
+                  <circle cx="110" cy="110" r="3" class="needle-pin"/>
+                </g>
+              </svg>
+
+              <div class="dial-center-text">
+                <div class="prob-val" id="gauge-percent">99.0%</div>
+                <div class="prob-lbl">Probability of Churn</div>
+              </div>
+            </div>
+
+            <!-- 4-Tier Scale Strip -->
+            <div class="scale-strip">
+              <div class="scale-item b-low" id="scale-low">
+                <span class="scale-bar"></span>
+                <span class="scale-text">Low &le;20%</span>
+              </div>
+              <div class="scale-item b-mod" id="scale-mod">
+                <span class="scale-bar"></span>
+                <span class="scale-text">Mod 20-40%</span>
+              </div>
+              <div class="scale-item b-high" id="scale-high">
+                <span class="scale-bar"></span>
+                <span class="scale-text">High 40-70%</span>
+              </div>
+              <div class="scale-item b-crit on" id="scale-crit">
+                <span class="scale-bar"></span>
+                <span class="scale-text">Crit &ge;70%</span>
+              </div>
+            </div>
+
+            <!-- Verdict Diagnostic Banner -->
+            <div class="verdict-banner" id="verdict-banner">
+              <div class="verdict-title" id="prediction-title">🚨 Critical Attrition Risk (99.0%)</div>
+              <div class="verdict-desc" id="prediction-summary">Customer is highly likely to churn. Immediate retention intervention is mandated to protect customer lifetime value.</div>
+            </div>
+
+            <!-- 3 Key Metric Tiles -->
+            <div class="kpi-tiles">
+              <div class="kpi-tile">
+                <div class="kpi-label">Model Verdict</div>
+                <div class="kpi-val text-crit" id="kpi-outcome">Churned</div>
+              </div>
+              <div class="kpi-tile">
+                <div class="kpi-label">vs Platform Avg</div>
+                <div class="kpi-val text-crit" id="kpi-delta">+82.2%</div>
+              </div>
+              <div class="kpi-tile">
+                <div class="kpi-label">Risk Signals</div>
+                <div class="kpi-val" id="kpi-signals">4 Active</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive "What-If" Simulation Sandbox -->
+          <div class="card what-if-card">
+            <div class="card-header-sm">
+              <div class="sec-title">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                <span>Interactive "What-If" Interventions</span>
+              </div>
+              <span class="badge-mini">1-Click Live Sandbox</span>
+            </div>
+            <p class="what-if-desc">Test real-world business interventions to observe the immediate reduction in churn probability:</p>
+            <div class="what-if-actions">
+              <button type="button" class="sim-btn" id="sim-resolve-complaint">
+                <span class="sim-icon">✅</span>
+                <div class="sim-text">
+                  <span class="sim-title">Resolve Open Complaint</span>
+                  <span class="sim-sub">Close active ticket within 24h SLA</span>
+                </div>
+                <span class="sim-tag">-40% Risk Drop</span>
+              </button>
+
+              <button type="button" class="sim-btn" id="sim-boost-cashback">
+                <span class="sim-icon">💵</span>
+                <div class="sim-text">
+                  <span class="sim-title">Boost Cashback to $220</span>
+                  <span class="sim-sub">Elevate into VIP loyalty reward tier</span>
+                </div>
+                <span class="sim-tag">-18% Risk Drop</span>
+              </button>
+
+              <button type="button" class="sim-btn" id="sim-reach-milestone">
+                <span class="sim-icon">🏆</span>
+                <div class="sim-text">
+                  <span class="sim-title">Simulate 6-Month Loyalty</span>
+                  <span class="sim-sub">Cross hazardous 3-month onboarding cliff</span>
+                </div>
+                <span class="sim-tag">-36% Risk Drop</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Attributed Risk Drivers -->
+          <div class="card intel-card">
+            <div class="card-header-sm">
+              <div class="sec-title">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>Attributed Segment Risk Signals</span>
+              </div>
+              <span class="badge-mini">vs. 16.8% Baseline</span>
+            </div>
+            <div class="signals-container" id="drivers-list">
+              <!-- Populated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Prescriptive Retention Playbook -->
+          <div class="card intel-card">
+            <div class="card-header-sm">
+              <div class="sec-title">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Prescriptive Retention Playbook</span>
+              </div>
+              <span class="badge-mini">Automated Strategy</span>
+            </div>
+            <div class="actions-container" id="actions-list">
+              <!-- Populated by JavaScript -->
+            </div>
+            <div class="card-note">
+              Playbook triggers are calibrated against the verified 5,630-record e-commerce churn benchmark.
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- TAB 2: CUSTOMER DIRECTORY (REAL COHORT EXPLORER)                 -->
+    <!-- ================================================================= -->
+    <div class="tab-pane" id="tab-cohort" role="tabpanel">
+      <div class="page-header-box">
+        <div>
+          <h2>E-Commerce Customer Directory &amp; At-Risk Cohort</h2>
+          <p>Real-time customer portfolio monitoring &bull; Select any customer to immediately evaluate and retain</p>
+        </div>
+        <div class="table-search-bar">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="customer-search-input" placeholder="Search customer by name, segment, ID...">
+        </div>
+      </div>
+
+      <!-- Cohort Summary Stats -->
+      <div class="cohort-kpis">
+        <div class="c-kpi-card">
+          <span class="c-kpi-lbl">Total Monitored Cohort</span>
+          <span class="c-kpi-num">8 Customers</span>
+          <span class="c-kpi-sub">5,630 In Master Database</span>
+        </div>
+        <div class="c-kpi-card">
+          <span class="c-kpi-lbl">Critical Attrition Watch</span>
+          <span class="c-kpi-num text-crit">3 Accounts</span>
+          <span class="c-kpi-sub">Immediate Outreach SLA</span>
+        </div>
+        <div class="c-kpi-card">
+          <span class="c-kpi-lbl">Moderate Watchlist</span>
+          <span class="c-kpi-num text-amber">2 Accounts</span>
+          <span class="c-kpi-sub">Targeted Loyalty Promos</span>
+        </div>
+        <div class="c-kpi-card">
+          <span class="c-kpi-lbl">Loyal VIP Accounts</span>
+          <span class="c-kpi-num text-green">3 Accounts</span>
+          <span class="c-kpi-sub">Low Churn Probability (&lt;10%)</span>
+        </div>
+      </div>
+
+      <!-- Customer Directory Table -->
+      <div class="card table-card">
+        <div class="table-responsive">
+          <table class="data-table" id="customer-directory-table">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Customer ID</th>
+                <th>Segment &amp; City</th>
+                <th>Tenure</th>
+                <th>LTV</th>
+                <th>Orders</th>
+                <th>Complaint</th>
+                <th>Churn Risk</th>
+                <th>Risk Tier</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="customer-table-body">
+              <!-- Rendered via JavaScript from /api/customers -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- TAB 3: FINANCIAL RETENTION ROI SIMULATOR                          -->
+    <!-- ================================================================= -->
+    <div class="tab-pane" id="tab-roi" role="tabpanel">
+      <div class="page-header-box">
+        <div>
+          <h2>Financial Retention ROI &amp; Value Realization Simulator</h2>
+          <p>Model the net revenue preserved and business impact of deploying ChurnGuard AI in production</p>
+        </div>
+      </div>
+
+      <div class="roi-grid">
+        <!-- Left: Interactive Business Parameters -->
+        <div class="card form-card">
+          <div class="card-header">
+            <div class="card-icon icon-blue">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <h3>Enterprise Portfolio Assumptions</h3>
+              <p>Tailor parameters to match your store's customer base</p>
+            </div>
+          </div>
+
+          <div class="form-body">
+            <div class="control-row full-width">
+              <div class="control-header">
+                <label for="roi-customer-base">Active Customer Base (Accounts)</label>
+                <span class="val-display" id="roi-customer-base-val">5,630</span>
+              </div>
+              <input type="range" id="roi-customer-base" min="1000" max="25000" step="500" value="5630">
+            </div>
+
+            <div class="control-row full-width">
+              <div class="control-header">
+                <label for="roi-baseline-churn">Annual Baseline Churn Rate (%)</label>
+                <span class="val-display" id="roi-baseline-churn-val">16.8%</span>
+              </div>
+              <input type="range" id="roi-baseline-churn" min="5" max="40" step="0.5" value="16.8">
+            </div>
+
+            <div class="control-row full-width">
+              <div class="control-header">
+                <label for="roi-customer-ltv">Average Annual Customer LTV ($)</label>
+                <span class="val-display" id="roi-customer-ltv-val">$850</span>
+              </div>
+              <input type="range" id="roi-customer-ltv" min="200" max="3000" step="50" value="850">
+            </div>
+
+            <div class="control-row full-width">
+              <div class="control-header">
+                <label for="roi-save-rate">Model Retention Success Rate (%)</label>
+                <span class="val-display" id="roi-save-rate-val">35%</span>
+              </div>
+              <input type="range" id="roi-save-rate" min="10" max="70" step="5" value="35">
+              <div class="control-hint">Percentage of targeted at-risk customers successfully saved via automated playbook.</div>
+            </div>
+
+            <div class="control-row full-width">
+              <div class="control-header">
+                <label for="roi-cost-per-save">Retention Cost per Customer ($)</label>
+                <span class="val-display" id="roi-cost-per-save-val">$25</span>
+              </div>
+              <input type="range" id="roi-cost-per-save" min="5" max="100" step="5" value="25">
+              <div class="control-hint">Vouchers, cashback bonus, and customer success concierge costs.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Projected Revenue Realization -->
+        <div class="card roi-results-card">
+          <div class="card-header">
+            <div class="card-icon icon-cyan">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div>
+              <h3>Projected Annual Business Value</h3>
+              <p>Estimated bottom-line retention gains with ChurnGuard AI</p>
+            </div>
+          </div>
+
+          <div class="roi-big-stat">
+            <div class="stat-highlight" id="roi-net-savings">$273,075</div>
+            <div class="stat-highlight-label">Net Annual Revenue Protected</div>
+          </div>
+
+          <div class="roi-metrics-grid">
+            <div class="roi-box">
+              <span class="roi-lbl">At-Risk Customers Flagged</span>
+              <span class="roi-num text-crit" id="roi-flagged-count">946</span>
+            </div>
+            <div class="roi-box">
+              <span class="roi-lbl">Accounts Successfully Saved</span>
+              <span class="roi-num text-green" id="roi-saved-count">331</span>
+            </div>
+            <div class="roi-box">
+              <span class="roi-lbl">Gross Revenue Saved</span>
+              <span class="roi-num" id="roi-gross-savings">$281,350</span>
+            </div>
+            <div class="roi-box">
+              <span class="roi-lbl">Playbook Campaign Cost</span>
+              <span class="roi-num text-muted" id="roi-campaign-cost">$8,275</span>
+            </div>
+          </div>
+
+          <div class="roi-badge-row">
+            <div class="roi-pill-highlight">
+              <span>Projected Campaign ROI:</span>
+              <strong id="roi-multiplier">3,300% (33.0&times;)</strong>
+            </div>
+          </div>
+
+          <div class="roi-note-box">
+            <h4>Executive Takeaway:</h4>
+            <p>By shifting from generic store-wide discounts to high-precision gradient boosted risk detection, retention budget is concentrated strictly on the 16.8% of users at immediate hazard, preventing voucher cannibalization on loyal customers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- TAB 4: MODEL SPECIFICATIONS & ACADEMIC AUDIT                     -->
+    <!-- ================================================================= -->
+    <div class="tab-pane" id="tab-benchmarks" role="tabpanel">
+      <div class="page-header-box">
+        <div>
+          <h2>Model Architecture, Benchmarking &amp; Academic Audit</h2>
+          <p>IT3051 Fundamentals of Data Mining &bull; Stage 6 Baseline Comparison &amp; Stage 7 Tuning Results</p>
+        </div>
+      </div>
+
+      <!-- Top KPI Row -->
+      <div class="benchmark-kpis">
+        <div class="b-kpi-card">
+          <span class="b-kpi-lbl">Champion Algorithm</span>
+          <span class="b-kpi-val text-brand">Tuned Gradient Boosting</span>
+        </div>
+        <div class="b-kpi-card">
+          <span class="b-kpi-lbl">Stratified 5-Fold CV F1</span>
+          <span class="b-kpi-val text-green">85.97%</span>
+        </div>
+        <div class="b-kpi-card">
+          <span class="b-kpi-lbl">Stratified 5-Fold Recall</span>
+          <span class="b-kpi-val">81.93%</span>
+        </div>
+        <div class="b-kpi-card">
+          <span class="b-kpi-lbl">Stratified 5-Fold ROC-AUC</span>
+          <span class="b-kpi-val">0.9729</span>
+        </div>
+        <div class="b-kpi-card">
+          <span class="b-kpi-lbl">Held-Out Test Set AUC</span>
+          <span class="b-kpi-val text-green">0.9992</span>
+        </div>
+      </div>
+
+      <!-- Multi-Algorithm Baseline Comparison Table -->
+      <div class="card audit-card">
+        <h3>Stage 6: Multi-Algorithm Cross-Validation Comparison</h3>
+        <p class="audit-sub">Evaluated across all candidates using Stratified 5-Fold Cross-Validation on the 5,630 customer dataset:</p>
+        
+        <div class="table-responsive">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>Model Architecture</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1 Score</th>
+                <th>ROC-AUC</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Logistic Regression (Baseline + SMOTE)</strong></td>
+                <td>82.33%</td>
+                <td>48.52%</td>
+                <td>81.27%</td>
+                <td>60.70%</td>
+                <td>0.9013</td>
+                <td><span class="status-tag tag-sub">Baseline Linear</span></td>
+              </tr>
+              <tr>
+                <td><strong>Decision Tree Classifier (Baseline + SMOTE)</strong></td>
+                <td>88.26%</td>
+                <td>63.63%</td>
+                <td>70.72%</td>
+                <td>66.91%</td>
+                <td>0.8126</td>
+                <td><span class="status-tag tag-sub">Tree Baseline</span></td>
+              </tr>
+              <tr>
+                <td><strong>Random Forest (Baseline Bagging)</strong></td>
+                <td>94.94%</td>
+                <td>94.48%</td>
+                <td>74.28%</td>
+                <td>83.03%</td>
+                <td>0.9769</td>
+                <td><span class="status-tag tag-good">Ensemble Bagging</span></td>
+              </tr>
+              <tr>
+                <td><strong>Gradient Boosting (Baseline Boosting)</strong></td>
+                <td>89.41%</td>
+                <td>67.54%</td>
+                <td>71.37%</td>
+                <td>69.34%</td>
+                <td>0.9148</td>
+                <td><span class="status-tag tag-sub">Default Params</span></td>
+              </tr>
+              <tr>
+                <td><strong>Tuned Random Forest (Stage 7 RandomizedSearchCV)</strong></td>
+                <td>95.03%</td>
+                <td>94.81%</td>
+                <td>74.54%</td>
+                <td>83.38%</td>
+                <td>0.9781</td>
+                <td><span class="status-tag tag-good">Tuned Runner-Up</span></td>
+              </tr>
+              <tr class="champion-row">
+                <td><strong>⭐ Tuned Gradient Boosting (Final Champion Model)</strong></td>
+                <td><strong>95.51%</strong></td>
+                <td><strong>90.56%</strong></td>
+                <td><strong>81.93%</strong></td>
+                <td><strong>85.97%</strong></td>
+                <td><strong>0.9729</strong></td>
+                <td><span class="status-tag tag-champ">Production Selected</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Feature Importances & Pipeline Architecture -->
+      <div class="benchmark-grid-2">
+        <div class="card audit-card">
+          <h3>Top 10 Feature Importances (Gradient Boosting)</h3>
+          <p class="audit-sub">Gini impurity importance across the 33 transformed pipeline features:</p>
+          <div class="feature-bars-list" id="feature-bars-list">
+            <!-- Dynamically populated from /api/metadata -->
+          </div>
+        </div>
+
+        <div class="card audit-card">
+          <h3>Data Mining Pipeline Specifications</h3>
+          <ul class="spec-list">
+            <li>
+              <strong>Stage 3 &amp; 4 Missingness Handling:</strong>
+              <span>Missing Not At Random (MNAR) pattern preserved with 6 binary indicator flags (e.g. <code>Tenure_was_missing</code>, <code>WarehouseToHome_was_missing</code>) + median imputation.</span>
+            </li>
+            <li>
+              <strong>Stage 4 Category Consolidation:</strong>
+              <span>Mapped typographical synonyms (<code>Phone</code> &rarr; <code>Mobile Phone</code>, <code>CC</code> &rarr; <code>Credit Card</code>, <code>COD</code> &rarr; <code>Cash on Delivery</code>).</span>
+            </li>
+            <li>
+              <strong>Stage 7 Feature Engineering:</strong>
+              <span>Engineered critical threshold flags (<code>Tenure_New_0_3mo</code> and <code>Tenure_Loyal_12mo_plus</code>) that capture the non-linear onboarding cliff.</span>
+            </li>
+            <li>
+              <strong>Imbalance Strategy:</strong>
+              <span>Trained with class weighting and threshold tuning to optimize the minority churn recall (81.93%) without sacrificing precision (90.56%).</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= SITE FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="f-brand">ChurnGuard AI</span>
+        <span class="f-sep">&bull;</span>
+        <span>IT3051 Fundamentals of Data Mining Customer Churn Project</span>
+        <span class="f-sep">&bull;</span>
+        <span>Model Version: v1.0.0 (FastAPI + Scikit-Learn)</span>
+      </div>
+      <div class="footer-right">
+        <a href="/docs" target="_blank" class="footer-link">Swagger API Docs</a>
+        <a href="#tab-benchmarks" class="footer-link" id="footer-specs-link">Model Audit</a>
+        <span class="footer-credit">&copy; 2026 E-Commerce Retention Intelligence</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast" id="toast-notify" hidden></div>
+
+<script src="app.js?v=5"></script>
+</body>
+</html>
