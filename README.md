@@ -23,14 +23,15 @@ Customer churn is the silent growth killer for modern e-commerce platforms. Acro
 
 1. **Retention Predictor & Simulator (Tab 1)**:
    - **Real-time Speedometer Gauge**: Semicircular SVG dial with dynamic gradient track, animated needle, 4-tier risk threshold strip, and live risk percentage.
-   - **Sample Profile Switcher**: 1-click loading of realistic archetypes (*Anika Patel* `Critical Risk 99%`, *Ravi Kumar* `Watchlist 28%`, *Dinesh Sharma* `Loyal Safe 3%`, and *Custom User*).
+   - **Sample Profile Switcher**: 1-click loading of realistic archetypes (*Account #9428* `Critical Risk 99%`, *Account #8104* `Watchlist 28%`, *Account #3051* `Loyal Safe 3%`, and *Custom Account*).
    - **Interactive "What-If" Interventions**: Live scenario testing (e.g. closing an open complaint ticket, upgrading cashback to $220, or simulating 6-month loyalty) with immediate visual risk drop feedback.
    - **Attributed Segment Risk Signals**: Comparative risk driver bars benchmarked against platform averages.
    - **Prescriptive Retention Playbook**: Concrete retention tasks with priority badges (`P1`, `P2`, `P3`) and assigned business departments (*Support*, *CRM*, *Loyalty*, *Logistics*).
 
 2. **Customer Directory Cohort Explorer (Tab 2)**:
+   - **Enterprise Privacy & PII Masking**: Customer identities are strictly protected with pseudonymized identifiers (`Account #9428`, `ACC-9428-T3`) and numeric badge avatars, removing all names and personal email addresses.
    - Interactive monitoring table of active customer accounts with Customer IDs, LTV, tenure, order cadence, complaint status, and live model risk scores.
-   - Real-time search filter by customer name, email, ID, or geographic segment.
+   - Real-time search filter by pseudonymized account ID, reference, or geographic segment.
    - 1-click **"Assess & Retain"** buttons that immediately load any customer profile into the predictor.
 
 3. **Financial Retention ROI Simulator (Tab 3)**:

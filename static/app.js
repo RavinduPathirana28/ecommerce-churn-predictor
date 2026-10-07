@@ -488,9 +488,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // PRESET PERSONA CHIPS & CUSTOMER SELECTION
   // =========================================================================
   const personaMeta = {
-    new_churn_risk: { name: 'Anika Patel', id: '#CUST-9428', tier: 'Tier 3 Regional', initials: 'AP', color: 'av-red' },
-    moderate_watch: { name: 'Ravi Kumar', id: '#CUST-8104', tier: 'Tier 2 Urban', initials: 'RK', color: 'av-amber' },
-    loyal_vip: { name: 'Dinesh Sharma', id: '#CUST-3051', tier: 'Tier 1 Metro (VIP)', initials: 'DS', color: 'av-green' }
+    new_churn_risk: { name: 'Account #9428', id: '#CUST-9428', tier: 'Tier 3 Regional', initials: '#94', color: 'av-red' },
+    moderate_watch: { name: 'Account #8104', id: '#CUST-8104', tier: 'Tier 2 Urban', initials: '#81', color: 'av-amber' },
+    loyal_vip: { name: 'Account #3051', id: '#CUST-3051', tier: 'Tier 1 Metro (VIP)', initials: '#30', color: 'av-green' }
   };
 
   let presetsCache = {};
@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
           resultAvatar.className = `avatar-lg ${meta.color}`;
         }
         if (resultName) resultName.textContent = meta.name;
-        if (resultMeta) resultMeta.textContent = `Customer ID: ${meta.id} • ${meta.tier}`;
+        if (resultMeta) resultMeta.textContent = `Customer ID: ${meta.id} • ${meta.tier} (PII Masked)`;
       }
 
       const data = presetsCache[presetId];
@@ -533,11 +533,11 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
       customProfileBtn.classList.add('active');
       if (resultAvatar) {
-        resultAvatar.textContent = 'CU';
+        resultAvatar.textContent = '⚙️';
         resultAvatar.className = 'avatar-lg av-blue';
       }
-      if (resultName) resultName.textContent = 'Custom Customer';
-      if (resultMeta) resultMeta.textContent = 'Manual Telemetry Simulation';
+      if (resultName) resultName.textContent = 'Custom Account';
+      if (resultMeta) resultMeta.textContent = 'Manual Telemetry Simulation (No PII)';
       showToast('Custom simulation mode active');
     });
   }
@@ -612,11 +612,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       loadFormData(defaults);
       if (resultAvatar) {
-        resultAvatar.textContent = 'CU';
+        resultAvatar.textContent = '⚙️';
         resultAvatar.className = 'avatar-lg av-blue';
       }
-      if (resultName) resultName.textContent = 'Custom Customer';
-      if (resultMeta) resultMeta.textContent = 'Platform Baseline Baseline';
+      if (resultName) resultName.textContent = 'Custom Account';
+      if (resultMeta) resultMeta.textContent = 'Platform Baseline Averages (No PII)';
 
       runPrediction(true);
       showToast('All parameters reset to platform defaults');
@@ -667,7 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="c-tbl-avatar ${c.avatar_color}">${c.avatar}</span>
               <div>
                 <div class="c-tbl-name">${c.name}</div>
-                <div class="c-tbl-email">${c.email}</div>
+                <div class="c-tbl-account-ref">${c.account_ref || c.id}</div>
               </div>
             </div>
           </td>
@@ -712,7 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
           resultAvatar.className = `avatar-lg ${cust.avatar_color}`;
         }
         if (resultName) resultName.textContent = cust.name;
-        if (resultMeta) resultMeta.textContent = `Customer ID: ${cust.id} • ${cust.segment}`;
+        if (resultMeta) resultMeta.textContent = `Customer ID: ${cust.id} • ${cust.segment} (PII Masked)`;
 
         // Load data & run prediction
         loadFormData(cust.data);
@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const q = e.target.value.toLowerCase().trim();
       const filtered = customerDirectoryData.filter(c => {
         return c.name.toLowerCase().includes(q) ||
-               c.email.toLowerCase().includes(q) ||
+               (c.account_ref && c.account_ref.toLowerCase().includes(q)) ||
                c.id.toLowerCase().includes(q) ||
                c.segment.toLowerCase().includes(q);
       });

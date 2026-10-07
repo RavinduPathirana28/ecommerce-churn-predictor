@@ -53,6 +53,10 @@
 
       <!-- Right Header Actions -->
       <div class="header-right">
+        <div class="privacy-pill" title="Privacy Protection Active: Customer names and personal contact info are masked">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="privacy-text">PII Masked &bull; Privacy Protected</span>
+        </div>
         <div class="status-pill" title="Model is active and serving real-time inferences">
           <span class="pulse-dot"></span>
           <span class="status-text">GB Champion Online</span>
@@ -82,27 +86,27 @@
         </div>
         <div class="persona-chips" id="persona-chips-container">
           <button type="button" class="persona-btn active" data-preset="new_churn_risk">
-            <span class="avatar-badge av-red">AP</span>
+            <span class="avatar-badge av-red">#94</span>
             <div class="persona-meta">
-              <span class="p-name">Anika Patel</span>
+              <span class="p-name">Account #9428</span>
               <span class="p-detail">1 mo &bull; Active Ticket</span>
             </div>
             <span class="p-badge badge-crit">High Risk (99%)</span>
           </button>
 
           <button type="button" class="persona-btn" data-preset="moderate_watch">
-            <span class="avatar-badge av-amber">RK</span>
+            <span class="avatar-badge av-amber">#81</span>
             <div class="persona-meta">
-              <span class="p-name">Ravi Kumar</span>
+              <span class="p-name">Account #8104</span>
               <span class="p-detail">5 mo &bull; 18km away</span>
             </div>
             <span class="p-badge badge-mod">Watchlist (28%)</span>
           </button>
 
           <button type="button" class="persona-btn" data-preset="loyal_vip">
-            <span class="avatar-badge av-green">DS</span>
+            <span class="avatar-badge av-green">#30</span>
             <div class="persona-meta">
-              <span class="p-name">Dinesh Sharma</span>
+              <span class="p-name">Account #3051</span>
               <span class="p-detail">24 mo &bull; VIP Gold</span>
             </div>
             <span class="p-badge badge-safe">Loyal Safe (3%)</span>
@@ -111,7 +115,7 @@
           <button type="button" class="persona-btn" id="custom-profile-btn">
             <span class="avatar-badge av-blue">⚙️</span>
             <div class="persona-meta">
-              <span class="p-name">Custom User</span>
+              <span class="p-name">Custom Account</span>
               <span class="p-detail">Manual Simulation</span>
             </div>
           </button>
@@ -389,10 +393,10 @@
             <!-- Active Customer Header -->
             <div class="active-customer-bar">
               <div class="c-info">
-                <span class="avatar-lg av-red" id="result-avatar">AP</span>
+                <span class="avatar-lg av-red" id="result-avatar">#94</span>
                 <div>
-                  <div class="c-name" id="result-name">Anika Patel</div>
-                  <div class="c-sub" id="result-meta">Customer ID: #CUST-9428 &bull; Tier 3 Regional</div>
+                  <div class="c-name" id="result-name">Account #9428</div>
+                  <div class="c-sub" id="result-meta">Customer ID: #CUST-9428 &bull; Tier 3 Regional (PII Masked)</div>
                 </div>
               </div>
               <span class="risk-badge badge-crit" id="risk-badge">Critical Risk</span>
@@ -552,12 +556,12 @@
     <div class="tab-pane" id="tab-cohort" role="tabpanel">
       <div class="page-header-box">
         <div>
-          <h2>E-Commerce Customer Directory &amp; At-Risk Cohort</h2>
-          <p>Real-time customer portfolio monitoring &bull; Select any customer to immediately evaluate and retain</p>
+          <h2>E-Commerce Customer Directory &amp; At-Risk Cohort (PII Masked)</h2>
+          <p>Privacy-compliant customer portfolio monitoring &bull; Personal identities anonymized &bull; Select any account to evaluate and retain</p>
         </div>
         <div class="table-search-bar">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="customer-search-input" placeholder="Search customer by name, segment, ID...">
+          <input type="text" id="customer-search-input" placeholder="Search by account ID, reference, segment...">
         </div>
       </div>
 
@@ -591,7 +595,7 @@
           <table class="data-table" id="customer-directory-table">
             <thead>
               <tr>
-                <th>Customer</th>
+                <th>Customer Identifier</th>
                 <th>Customer ID</th>
                 <th>Segment &amp; City</th>
                 <th>Tenure</th>

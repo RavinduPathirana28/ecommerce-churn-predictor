@@ -189,6 +189,24 @@ a {
   gap: 12px;
 }
 
+.privacy-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #34d399;
+  letter-spacing: 0.02em;
+}
+
+.privacy-pill svg {
+  color: #10b981;
+}
+
 .status-pill {
   display: flex;
   align-items: center;
@@ -1380,9 +1398,12 @@ select:focus {
   color: #fff;
 }
 
-.c-tbl-email {
+.c-tbl-email,
+.c-tbl-account-ref {
   font-size: 10px;
   color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
 }
 
 .c-id-tag {

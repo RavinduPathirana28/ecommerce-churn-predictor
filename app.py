@@ -321,11 +321,11 @@ def predict_churn(customer: CustomerInput):
 
 @app.get("/api/presets")
 def get_presets():
-    """Return realistic test personas for evaluation demonstrations."""
+    """Return privacy-compliant test personas for evaluation demonstrations."""
     return [
         {
             "id": "new_churn_risk",
-            "name": "🚨 At-Risk New Customer",
+            "name": "🚨 Critical Risk Cohort (Account #9428)",
             "description": "1 month tenure, unresolved complaint, low cashback, single",
             "data": {
                 "Tenure": 1.0,
@@ -350,7 +350,7 @@ def get_presets():
         },
         {
             "id": "loyal_vip",
-            "name": "⭐ Established Loyal VIP",
+            "name": "⭐ Loyal VIP Cohort (Account #3051)",
             "description": "24 months tenure, zero complaints, high cashback, frequent orders",
             "data": {
                 "Tenure": 24.0,
@@ -375,7 +375,7 @@ def get_presets():
         },
         {
             "id": "moderate_watch",
-            "name": "⚠️ Borderline Customer",
+            "name": "⚠️ Watchlist Cohort (Account #8104)",
             "description": "5 months tenure, moderate warehouse distance, moderate satisfaction",
             "data": {
                 "Tenure": 5.0,
@@ -402,14 +402,14 @@ def get_presets():
 
 @app.get("/api/customers")
 def get_customers():
-    """Return a realistic cohort of e-commerce customers for the Customer Directory,
+    """Return a realistic, privacy-compliant cohort of e-commerce customers without PII,
     dynamically evaluated against the model for 100% mathematical consistency."""
     customers = [
         {
             "id": "CUST-9428",
-            "name": "Anika Patel",
-            "email": "anika.patel@example.com",
-            "avatar": "AP",
+            "name": "Account #9428",
+            "account_ref": "ACC-9428-T3",
+            "avatar": "#94",
             "segment": "Tier 3 Regional",
             "ltv": "$380",
             "tenure_months": 1,
@@ -426,9 +426,9 @@ def get_customers():
         },
         {
             "id": "CUST-8104",
-            "name": "Ravi Kumar",
-            "email": "ravi.kumar@example.com",
-            "avatar": "RK",
+            "name": "Account #8104",
+            "account_ref": "ACC-8104-T2",
+            "avatar": "#81",
             "segment": "Tier 2 Urban",
             "ltv": "$1,150",
             "tenure_months": 1,
@@ -445,9 +445,9 @@ def get_customers():
         },
         {
             "id": "CUST-3051",
-            "name": "Dinesh Sharma",
-            "email": "dinesh.sharma@example.com",
-            "avatar": "DS",
+            "name": "Account #3051",
+            "account_ref": "ACC-3051-VIP",
+            "avatar": "#30",
             "segment": "Tier 1 Metro (VIP)",
             "ltv": "$4,290",
             "tenure_months": 24,
@@ -464,9 +464,9 @@ def get_customers():
         },
         {
             "id": "CUST-5219",
-            "name": "Maya Lin",
-            "email": "maya.lin@example.com",
-            "avatar": "ML",
+            "name": "Account #5219",
+            "account_ref": "ACC-5219-T3",
+            "avatar": "#52",
             "segment": "Tier 3 Regional",
             "ltv": "$590",
             "tenure_months": 1,
@@ -483,9 +483,9 @@ def get_customers():
         },
         {
             "id": "CUST-6743",
-            "name": "Carlos Mendez",
-            "email": "carlos.m@example.com",
-            "avatar": "CM",
+            "name": "Account #6743",
+            "account_ref": "ACC-6743-T2",
+            "avatar": "#67",
             "segment": "Tier 2 Urban",
             "ltv": "$1,820",
             "tenure_months": 11,
@@ -502,9 +502,9 @@ def get_customers():
         },
         {
             "id": "CUST-7890",
-            "name": "Priya Singh",
-            "email": "priya.singh@example.com",
-            "avatar": "PS",
+            "name": "Account #7890",
+            "account_ref": "ACC-7890-T3",
+            "avatar": "#78",
             "segment": "Tier 3 Regional",
             "ltv": "$740",
             "tenure_months": 1,
@@ -521,9 +521,9 @@ def get_customers():
         },
         {
             "id": "CUST-4412",
-            "name": "David Miller",
-            "email": "david.miller@example.com",
-            "avatar": "DM",
+            "name": "Account #4412",
+            "account_ref": "ACC-4412-T1",
+            "avatar": "#44",
             "segment": "Tier 1 Metro",
             "ltv": "$2,980",
             "tenure_months": 16,
@@ -540,9 +540,9 @@ def get_customers():
         },
         {
             "id": "CUST-9021",
-            "name": "Fatima Al-Sayed",
-            "email": "fatima.as@example.com",
-            "avatar": "FA",
+            "name": "Account #9021",
+            "account_ref": "ACC-9021-T3",
+            "avatar": "#90",
             "segment": "Tier 3 Regional",
             "ltv": "$310",
             "tenure_months": 1,
