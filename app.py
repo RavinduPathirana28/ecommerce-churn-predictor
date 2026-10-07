@@ -43,7 +43,7 @@ DEFAULTS = metadata.get("defaults", {})
 
 # Pydantic Input Schema
 class CustomerInput(BaseModel):
-    Tenure: Optional[float] = Field(None, description="Months since customer signup (0-60)")
+    Tenure: Optional[float] = Field(None, ge=0.0, le=60.0, description="Months since customer signup (0-60)")
     CityTier: int = Field(1, ge=1, le=3, description="City Tier (1, 2, or 3)")
     WarehouseToHome: Optional[float] = Field(None, ge=1.0, le=150.0, description="Distance from warehouse in km")
     HourSpendOnApp: Optional[float] = Field(None, ge=0.0, le=10.0, description="Average hours spent on mobile app per day")
