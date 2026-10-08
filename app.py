@@ -380,19 +380,19 @@ def get_presets():
             "data": {
                 "Tenure": 5.0,
                 "CityTier": 2,
-                "WarehouseToHome": 18.0,
-                "HourSpendOnApp": 3.0,
+                "WarehouseToHome": 20.0,
+                "HourSpendOnApp": 2.0,
                 "NumberOfDeviceRegistered": 3,
                 "SatisfactionScore": 3,
                 "NumberOfAddress": 3,
-                "Complain": 0,
-                "OrderAmountHikeFromlastYear": 14.0,
+                "Complain": 1,
+                "OrderAmountHikeFromlastYear": 12.0,
                 "CouponUsed": 1.0,
                 "OrderCount": 2.0,
-                "DaySinceLastOrder": 16.0,
-                "CashbackAmount": 155.0,
+                "DaySinceLastOrder": 10.0,
+                "CashbackAmount": 160.0,
                 "Gender": "Female",
-                "MaritalStatus": "Divorced",
+                "MaritalStatus": "Single",
                 "PreferredLoginDevice": "Mobile Phone",
                 "PreferredPaymentMode": "Debit Card",
                 "PreferedOrderCat": "Fashion"
@@ -431,16 +431,16 @@ def get_customers():
             "avatar": "#81",
             "segment": "Tier 2 Urban",
             "ltv": "$1,150",
-            "tenure_months": 1,
+            "tenure_months": 5,
             "orders": 2,
-            "complaint": 0,
+            "complaint": 1,
             "data": {
-                "Tenure": 1.0, "CityTier": 2, "WarehouseToHome": 18.0, "HourSpendOnApp": 3.0,
+                "Tenure": 5.0, "CityTier": 2, "WarehouseToHome": 20.0, "HourSpendOnApp": 2.0,
                 "NumberOfDeviceRegistered": 3, "SatisfactionScore": 3, "NumberOfAddress": 3,
-                "Complain": 0, "OrderAmountHikeFromlastYear": 14.0, "CouponUsed": 1.0,
-                "OrderCount": 2.0, "DaySinceLastOrder": 16.0, "CashbackAmount": 140.0,
-                "Gender": "Female", "MaritalStatus": "Divorced", "PreferredLoginDevice": "Mobile Phone",
-                "PreferredPaymentMode": "Cash on Delivery", "PreferedOrderCat": "Fashion"
+                "Complain": 1, "OrderAmountHikeFromlastYear": 12.0, "CouponUsed": 1.0,
+                "OrderCount": 2.0, "DaySinceLastOrder": 10.0, "CashbackAmount": 160.0,
+                "Gender": "Female", "MaritalStatus": "Single", "PreferredLoginDevice": "Mobile Phone",
+                "PreferredPaymentMode": "Debit Card", "PreferedOrderCat": "Fashion"
             }
         },
         {
@@ -562,12 +562,20 @@ def get_customers():
     # Evaluate exact probabilities from model
     for c in customers:
         try:
-            inp = CustomerInput(**c["data"])
+            customer_data = c.get("data")
+            if isinstance(customer_data, dict):
+                inp = CustomerInput.model_validate(customer_data)
+            else:
+                inp = CustomerInput()
             df_t, _ = preprocess_customer(inp)
             prob = float(model.predict_proba(df_t)[0][1])
             c["churn_risk"] = round(prob * 100, 1)
             if prob >= 0.70:
                 c["risk_tier"] = "Critical Risk"
+                c["tier_badge"] = "badge-crit"
+                c["avatar_color"] = "av-red"
+            elif prob >= 0.40:
+                c["risk_tier"] = "High Risk"
                 c["tier_badge"] = "badge-crit"
                 c["avatar_color"] = "av-red"
             elif prob >= 0.20:
