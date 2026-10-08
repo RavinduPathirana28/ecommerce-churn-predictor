@@ -11,11 +11,11 @@
 
 ---
 
-##  Executive Summary
+## Executive Summary
 
-Customer churn is the silent growth killer for modern e-commerce platforms. Across our benchmark dataset of **5,630 e-commerce customers**, the baseline attrition rate is **16.8%**. Generic store-wide discounting fails because it gives margins away to customers who were never going to leave while failing to rescue truly endangered accounts.
+Customer churn is a silent growth killer for modern e-commerce platforms. Across our benchmark dataset of **5,630 e-commerce customers**, the baseline attrition rate is **16.8%**. Generic store-wide discounting is often ineffective—it gives away margins to customers who were never likely to leave while failing to target those who are genuinely at risk.
 
-**ChurnGuard AI** is a complete, production-ready machine learning service and interactive decision-support application. It operationalizes a **Tuned Gradient Boosting Classifier** that achieves an **85.97% 5-fold cross-validation F1-score** and **81.93% recall**, reliably intercepting more than 8 out of 10 departing customers before they churn.
+**ChurnGuard AI** is a production-ready machine learning service and interactive decision-support application designed to identify at-risk customers and support targeted retention strategies. At its core, it uses a **Tuned Gradient Boosting Classifier** that achieves an **85.97% 5-fold cross-validation F1-score** and **81.93% recall**, successfully identifying more than 8 out of 10 customers who are likely to churn. This enables businesses to move from reactive retention to proactive, data-driven customer engagement.
 
 ---
 
