@@ -19,6 +19,16 @@ Customer churn is a silent growth killer for modern e-commerce platforms. Across
 
 ---
 
+## Project Objectives
+
+- Identify e-commerce customers who are likely to churn before they leave.
+- Compare several machine learning algorithms and select the best one using cross-validation.
+- Handle missing values and class imbalance in a way that keeps useful signals in the data.
+- Provide a simple web application where a user can test a customer profile and see the predicted risk.
+- Suggest practical retention actions for the teams that would act on the prediction.
+
+---
+
 ## Key Web Application Features
 
 1. **Retention Predictor & Simulator (Tab 1)**:
@@ -60,6 +70,14 @@ All candidate algorithms were evaluated using **Stratified 5-Fold Cross-Validati
 | **⭐ Tuned Gradient Boosting** *(Best model)* | **95.51%** | **90.56%** | **81.93%** | **85.97%** | **0.9729** | **Selected Champion** |
 
 > **Held-Out Test Set Performance**: **ROC-AUC = 0.9992** | **Test F1 = 89.84%** | **Test Recall = 83.42%**
+
+### Understanding the Metrics
+
+- **Accuracy**: share of all customers classified correctly. It can be misleading here because only 16.8% of customers churn.
+- **Precision**: of the customers flagged as likely to churn, how many really were.
+- **Recall**: of the customers who really churned, how many the model caught.
+- **F1 Score**: a single score that balances precision and recall, which is why it was used to pick the best model.
+- **ROC-AUC**: how well the model separates churners from non-churners (closer to 1.0 is better).
 
 ---
 
@@ -126,6 +144,15 @@ Open your browser at:
 Interactive API Swagger documentation is available at:  
  **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)**
 
+### Troubleshooting
+
+| Problem | Possible fix |
+| :--- | :--- |
+| `ModuleNotFoundError` when starting the app | Make sure the virtual environment is activated, then run `pip install -r requirements.txt` again. |
+| `churn_model.joblib` not found | Run `python train_and_export.py` to generate the model file. |
+| Port 8000 is already in use | Close the other program using the port, or change the port in `app.py`. |
+| Page does not load in the browser | Check that the terminal shows the server running, then open `http://127.0.0.1:8000/api/health`. |
+
 ---
 
 ##  Repository Structure
@@ -159,6 +186,34 @@ Interactive API Swagger documentation is available at:
 | `GET` | `/api/presets` | Quick-select demo customer profiles |
 | `GET` | `/api/metadata` | Model specs, benchmark metrics & feature importances |
 | `GET` | `/api/health` | Service health status |
+
+---
+
+## Future Improvements
+
+- Add explanations for each individual prediction (for example, with SHAP).
+- Add simple automated tests for the API endpoints.
+- Package the app with Docker for easier deployment.
+- Try additional models such as XGBoost or LightGBM and compare them with the current champion.
+
+---
+
+## Team Members
+
+| Member | Role / Contribution |
+| :--- | :--- |
+| _Member 1_ | _e.g. EDA and data cleaning_ |
+| _Member 2_ | _e.g. Model training and tuning_ |
+| _Member 3_ | _e.g. FastAPI backend_ |
+| _Member 4_ | _e.g. Frontend and documentation_ |
+
+---
+
+## Contributing
+
+1. Create a new branch for your change.
+2. Make small commits with clear messages.
+3. Open a pull request so the team can review it.
 
 ---
 
