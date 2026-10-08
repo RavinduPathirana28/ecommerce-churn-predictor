@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tabLinks = document.querySelectorAll('.tab-link');
   const tabPanes = document.querySelectorAll('.tab-pane');
 
+  // Activate the chosen tab link and show its matching pane
   function switchTab(tabId) {
     tabLinks.forEach(link => {
       const isTarget = link.getAttribute('data-tab') === tabId;
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Click handlers for each tab link
   tabLinks.forEach(link => {
     link.addEventListener('click', () => {
       const tabId = link.getAttribute('data-tab');
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Footer link jumps to the benchmarks tab
   const footerSpecsLink = document.getElementById('footer-specs-link');
   if (footerSpecsLink) {
     footerSpecsLink.addEventListener('click', (e) => {
@@ -40,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toast = document.getElementById('toast-notify');
   let toastTimeout = null;
 
+  // Show a message briefly, then auto-hide
   function showToast(message) {
     if (!toast) return;
     toast.textContent = message;
@@ -53,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // FORM ELEMENTS & CONTROLS
   // =========================================================================
+  // Cache frequently used DOM elements
   const form = document.getElementById('churn-form');
   const predictBtn = document.getElementById('predict-btn');
   const globalResetBtn = document.getElementById('global-reset-btn');
@@ -76,11 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'HourSpendOnApp', suffix: ' h' }
   ];
 
+  // Sync slider fill, value label, and tenure hint
   function updateSlider(item) {
     const el = document.getElementById(item.id);
     const valEl = document.getElementById(`${item.id}-val`);
     if (!el) return;
 
+    // Compute fill percentage for the track styling
     const min = parseFloat(el.min) || 0;
     const max = parseFloat(el.max) || 100;
     const val = parseFloat(el.value) || 0;
@@ -88,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     el.style.setProperty('--pct', `${pct}%`);
 
+    // Update the visible value label
     if (valEl) {
       const prefix = item.prefix || '';
       const suffix = item.suffix || '';
@@ -136,11 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Read the selected value of a pill group
   function getPillValue(groupName) {
     const active = document.querySelector(`.pill-group[data-group="${groupName}"] .pill-btn.active`);
     return active ? active.getAttribute('data-val') : null;
   }
 
+  // Programmatically select a pill by value
   function setPillValue(groupName, val) {
     const btn = document.querySelector(`.pill-group[data-group="${groupName}"] .pill-btn[data-val="${val}"]`);
     if (btn) {
@@ -153,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Star Rating Bar
+  // Text labels shown next to the star score
   const starLabels = {
     '1': '1 • Very Dissatisfied',
     '2': '2 • Dissatisfied',
@@ -176,11 +187,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Current star score (defaults to 3)
   function getStarValue() {
     const active = document.querySelector('.star-rating[data-group="SatisfactionScore"] .star-btn.active');
     return active ? parseInt(active.getAttribute('data-val'), 10) : 3;
   }
 
+  // Set the star score and its label
   function setStarValue(val) {
     const btn = document.querySelector(`.star-rating[data-group="SatisfactionScore"] .star-btn[data-val="${val}"]`);
     if (btn && starGroup) {
@@ -191,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Complaint Toggle UI
+  // Swap the alert box between active and resolved states
   function updateComplaintUI(checked) {
     if (!complaintAlertBox) return;
     if (checked) {
@@ -219,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Debounced auto-prediction
+  // Wait 100ms after the last change before calling the API
   let debounceTimer = null;
   function debouncedPredict() {
     clearTimeout(debounceTimer);
@@ -230,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // SPEEDOMETER & RESULTS RENDERING
   // =========================================================================
+  // Cache result-panel elements
   const gaugeCircle = document.getElementById('gauge-circle');
   const gaugeNeedle = document.getElementById('gauge-needle');
   const gaugePercent = document.getElementById('gauge-percent');
@@ -245,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultName = document.getElementById('result-name');
   const resultMeta = document.getElementById('result-meta');
 
+  // Risk scale tier elements
   const scaleBands = {
     low: document.getElementById('scale-low'),
     mod: document.getElementById('scale-mod'),
@@ -252,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     crit: document.getElementById('scale-crit')
   };
 
+  // Animate the gauge arc, needle, and risk tier
   function setGauge(percent) {
     const pct = Math.max(0, Math.min(100, percent));
 
@@ -285,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Collect all form inputs into one API payload
   function getFormData() {
     const payload = {};
 
@@ -316,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return payload;
   }
 
+  // Fill the form controls from a data object (preset, customer, defaults)
   function loadFormData(data) {
     // Sliders
     sliders.forEach(s => {
@@ -354,7 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Send form data to the backend and render the response
   async function runPrediction(isManual = false) {
+    // Disable the button only for manual runs
     if (isManual && predictBtn) predictBtn.disabled = true;
 
     try {
@@ -378,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Paint the prediction response into the results panel
   function renderResults(data) {
     const pct = data.churn_percentage;
     const assessment = data.risk_assessment;
@@ -414,6 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
       kpiOutcome.textContent = data.prediction_label;
       kpiOutcome.className = data.prediction === 1 ? 'kpi-val text-crit' : 'kpi-val text-green';
     }
+    // Difference vs platform baseline churn
     if (kpiDelta) {
       const diff = pct - baseline;
       const sign = diff >= 0 ? '+' : '';
@@ -431,6 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
         driversList.innerHTML = assessment.risk_factors.map(rf => {
           const sevCls = `sev-${(rf.severity || 'low').toLowerCase()}`;
           const segRate = rf.segment_rate !== undefined ? `${rf.segment_rate.toFixed(1)}%` : '';
+          // Bar scale maxes out at a 60% churn rate
           const barWidth = rf.segment_rate ? Math.min(100, (rf.segment_rate / 60) * 100) : 30;
           const basePos = (baseline / 60) * 100;
           return `
@@ -451,6 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
         }).join('');
       } else {
+        // No risk flags: show a healthy empty state
         driversList.innerHTML = `
           <div class="empty-state">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 6px; display: block; color: var(--color-green);"><path d="M20 6L9 17l-5-5"/></svg>
@@ -487,12 +513,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // PRESET PERSONA CHIPS & CUSTOMER SELECTION
   // =========================================================================
+  // Display info for each preset persona
   const personaMeta = {
     new_churn_risk: { name: 'Account #9428', id: '#CUST-9428', tier: 'Tier 3 Regional', initials: '#94', color: 'av-red' },
     moderate_watch: { name: 'Account #8104', id: '#CUST-8104', tier: 'Tier 2 Urban', initials: '#81', color: 'av-amber' },
     loyal_vip: { name: 'Account #3051', id: '#CUST-3051', tier: 'Tier 1 Metro (VIP)', initials: '#30', color: 'av-green' }
   };
 
+  // Fetch preset form data once and cache by id
   let presetsCache = {};
   fetch('/api/presets')
     .then(r => r.json())
@@ -501,6 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(e => console.warn('Could not fetch presets:', e));
 
+  // Clicking a persona loads its profile and predicts
   const personaBtns = document.querySelectorAll('.persona-btn[data-preset]');
   personaBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -508,6 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
+      // Update the profile header card
       const meta = personaMeta[presetId];
       if (meta) {
         if (resultAvatar) {
@@ -527,6 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Switch back to manual "custom" simulation mode
   const customProfileBtn = document.getElementById('custom-profile-btn');
   if (customProfileBtn) {
     customProfileBtn.addEventListener('click', () => {
@@ -545,6 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // INTERACTIVE "WHAT-IF" SIMULATION INTERVENTIONS
   // =========================================================================
+  // What-if: close the open complaint
   const simResolveComplaint = document.getElementById('sim-resolve-complaint');
   if (simResolveComplaint) {
     simResolveComplaint.addEventListener('click', () => {
@@ -557,6 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // What-if: raise cashback to $220
   const simBoostCashback = document.getElementById('sim-boost-cashback');
   if (simBoostCashback) {
     simBoostCashback.addEventListener('click', () => {
@@ -570,6 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // What-if: customer reaches 6 months tenure
   const simReachMilestone = document.getElementById('sim-reach-milestone');
   if (simReachMilestone) {
     simReachMilestone.addEventListener('click', () => {
@@ -589,6 +623,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
       if (customProfileBtn) customProfileBtn.classList.add('active');
 
+      // Platform baseline default values
       const defaults = {
         Tenure: 2,
         CityTier: 1,
@@ -623,6 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Prevent page reload on form submit
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -637,6 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const customerSearchInput = document.getElementById('customer-search-input');
   let customerDirectoryData = [];
 
+  // Fetch the customer list and render the table
   async function loadCustomerDirectory() {
     try {
       const res = await fetch('/api/customers');
@@ -648,15 +685,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Build the table rows for the given customers
   function renderCustomerDirectory(customers) {
     if (!customerTableBody) return;
 
+    // Empty state when search matches nothing
     if (customers.length === 0) {
       customerTableBody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding: 24px; color: var(--text-muted);">No customers found matching filter.</td></tr>';
       return;
     }
 
     customerTableBody.innerHTML = customers.map(c => {
+      // Risk bar width and color by tier
       const barWidth = Math.min(100, Math.max(4, c.churn_risk));
       const barColor = c.churn_risk >= 70 ? 'var(--color-red)' : (c.churn_risk >= 20 ? 'var(--color-amber)' : 'var(--color-green)');
 
@@ -723,6 +763,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Live-filter the table by name, ref, id, or segment
   if (customerSearchInput) {
     customerSearchInput.addEventListener('input', (e) => {
       const q = e.target.value.toLowerCase().trim();
@@ -739,18 +780,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // TAB 3: FINANCIAL ROI SIMULATOR
   // =========================================================================
+  // ROI input sliders
   const roiCustomerBase = document.getElementById('roi-customer-base');
   const roiBaselineChurn = document.getElementById('roi-baseline-churn');
   const roiCustomerLtv = document.getElementById('roi-customer-ltv');
   const roiSaveRate = document.getElementById('roi-save-rate');
   const roiCostPerSave = document.getElementById('roi-cost-per-save');
 
+  // Labels showing each slider's current value
   const roiCustomerBaseVal = document.getElementById('roi-customer-base-val');
   const roiBaselineChurnVal = document.getElementById('roi-baseline-churn-val');
   const roiCustomerLtvVal = document.getElementById('roi-customer-ltv-val');
   const roiSaveRateVal = document.getElementById('roi-save-rate-val');
   const roiCostPerSaveVal = document.getElementById('roi-cost-per-save-val');
 
+  // Output metrics
   const roiNetSavings = document.getElementById('roi-net-savings');
   const roiFlaggedCount = document.getElementById('roi-flagged-count');
   const roiSavedCount = document.getElementById('roi-saved-count');
@@ -758,9 +802,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const roiCampaignCost = document.getElementById('roi-campaign-cost');
   const roiMultiplier = document.getElementById('roi-multiplier');
 
+  // Recalculate campaign ROI from the slider inputs
   function calculateRoi() {
     if (!roiCustomerBase) return;
 
+    // Read inputs, falling back to defaults
     const base = parseFloat(roiCustomerBase.value) || 5630;
     const churnPct = parseFloat(roiBaselineChurn.value) || 16.8;
     const ltv = parseFloat(roiCustomerLtv.value) || 850;
@@ -782,6 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const netSaved = Math.max(0, grossSaved - campaignCost);
     const roiMult = campaignCost > 0 ? (netSaved / campaignCost) * 100 : 0;
 
+    // Write results to the page
     if (roiFlaggedCount) roiFlaggedCount.textContent = atRiskCustomers.toLocaleString();
     if (roiSavedCount) roiSavedCount.textContent = savedCustomers.toLocaleString();
     if (roiGrossSavings) roiGrossSavings.textContent = `$${grossSaved.toLocaleString()}`;
@@ -790,6 +837,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (roiMultiplier) roiMultiplier.textContent = `${Math.round(roiMult).toLocaleString()}% (${(roiMult / 100).toFixed(1)}×)`;
   }
 
+  // Recalculate whenever any ROI input changes
   [roiCustomerBase, roiBaselineChurn, roiCustomerLtv, roiSaveRate, roiCostPerSave].forEach(input => {
     if (input) {
       input.addEventListener('input', calculateRoi);
@@ -801,6 +849,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   const featureBarsList = document.getElementById('feature-bars-list');
 
+  // Fetch model metadata and draw top-10 feature importance bars
   async function loadModelMetadata() {
     try {
       const res = await fetch('/api/metadata');
@@ -809,6 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (meta.feature_importances && featureBarsList) {
         const top10 = meta.feature_importances.slice(0, 10);
+        // Scale bars relative to the top feature
         const maxVal = top10[0][1] || 1;
 
         featureBarsList.innerHTML = top10.map(([name, val]) => {
@@ -832,6 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // INITIALIZATION ON PAGE LOAD
   // =========================================================================
+  // Kick off all initial data loads and first prediction
   loadCustomerDirectory();
   loadModelMetadata();
   calculateRoi();
