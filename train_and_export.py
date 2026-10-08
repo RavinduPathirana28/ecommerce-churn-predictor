@@ -29,15 +29,7 @@ def train_and_export():
         'OrderCount', 'DaySinceLastOrder', 'CashbackAmount'
     ]
 
-    # Calculate medians on raw data before imputation
-    raw_medians = {}
-    missing_cols = ['Tenure', 'WarehouseToHome', 'HourSpendOnApp',
-                    'OrderAmountHikeFromlastYear', 'CouponUsed',
-                    'OrderCount', 'DaySinceLastOrder']
-    for col in missing_cols:
-        raw_medians[col] = float(df[col].median())
-
-    # Preprocessing identical to notebook:
+    # 2. Per-row deterministic preprocessing
     # A. Missing indicator features
     for col in ['Tenure', 'WarehouseToHome', 'HourSpendOnApp',
                 'OrderAmountHikeFromlastYear', 'OrderCount', 'CouponUsed']:
@@ -54,23 +46,19 @@ def train_and_export():
     # C. Drop identifier
     df = df.drop(columns=['CustomerID'])
 
-    # D. Median imputation
-    for col in missing_cols:
-        df[col] = df[col].fillna(raw_medians[col])
-
-    # E. Categorical encoding
+    # D. Categorical encoding
     categorical_cols = ['Gender', 'MaritalStatus', 'PreferredLoginDevice',
                         'PreferredPaymentMode', 'PreferedOrderCat']
     df = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
-    # F. Boolean to int
+    # E. Boolean to int
     bool_cols = df.select_dtypes(include='bool').columns
     df[bool_cols] = df[bool_cols].astype(int)
 
-    # G. Clean column names
+    # F. Clean column names
     df.columns = df.columns.str.replace(' ', '_').str.replace('&', 'and')
 
-    # Train / Test split
+    # Train / Test split BEFORE calculating imputation statistics (Zero Data Leakage)
     X = df.drop(columns=['Churn'])
     y = df['Churn']
 
@@ -79,7 +67,20 @@ def train_and_export():
     )
     X_train, X_test = X_train.copy(), X_test.copy()
 
-    # H. Engineered Tenure Features (Cell 102)
+    # G. Calculate imputation medians strictly on X_train
+    raw_medians = {}
+    missing_cols = ['Tenure', 'WarehouseToHome', 'HourSpendOnApp',
+                    'OrderAmountHikeFromlastYear', 'CouponUsed',
+                    'OrderCount', 'DaySinceLastOrder']
+    for col in missing_cols:
+        raw_medians[col] = float(X_train[col].median())
+
+    # H. Impute missing values using training set medians
+    for col in missing_cols:
+        X_train[col] = X_train[col].fillna(raw_medians[col])
+        X_test[col] = X_test[col].fillna(raw_medians[col])
+
+    # I. Engineered Tenure Features (Cell 102)
     for data in (X_train, X_test):
         data['Tenure_New_0_3mo'] = (data['Tenure'] <= 3).astype(int)
         data['Tenure_Loyal_12mo_plus'] = (data['Tenure'] > 12).astype(int)
@@ -131,10 +132,10 @@ def train_and_export():
     joblib.dump(best_gb, 'churn_model.joblib')
     print("Saved churn_model.joblib successfully!")
 
-    # Compute typical values (medians/modes) across the full dataset for realistic form defaults
+    # Compute typical values (medians/modes) strictly from training dataset for realistic form defaults
     defaults = {}
     for col in numeric_cols:
-        defaults[col] = float(df[col].median())
+        defaults[col] = float(X_train[col].median())
     for col, opts in categorical_options.items():
         defaults[col] = opts[0]
 
