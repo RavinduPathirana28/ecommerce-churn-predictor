@@ -163,7 +163,7 @@ def preprocess_customer(data: CustomerInput) -> pd.DataFrame:
 
 BASELINE_CHURN = 16.8  # overall churn rate (%) in the E-Commerce Churn dataset
 
-
+# Generate personalized retention insights and recommended actions based on customer risk.
 def generate_insights_and_actions(prob: float, context: dict) -> Dict[str, Any]:
     """Flag segment-level risk signals and suggest retention actions.
 
