@@ -7,3 +7,5 @@ pandas>=2.0.0                       # Data manipulation and analysis
 numpy>=1.24.0                       # Numerical and array operations
 joblib>=1.3.0                       # Saving and loading ML models
 scipy>=1.11.0                       # Scientific and mathematical functions
+pytest>=7.0.0                       # Test suite framework
+httpx>=0.24.0                       # HTTP client for FastAPI TestClient

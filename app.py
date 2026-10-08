@@ -66,7 +66,7 @@ class CustomerInput(BaseModel):
 
 def preprocess_customer(data: CustomerInput) -> pd.DataFrame:
     """Transform raw customer input into the exact 33 features used during model training."""
-    raw_dict = data.dict()
+    raw_dict = data.model_dump() if hasattr(data, "model_dump") else data.dict()
     
     # 1. Track missingness for columns identified as MNAR in Stage 3 & 4
     tenure_val = raw_dict['Tenure']
