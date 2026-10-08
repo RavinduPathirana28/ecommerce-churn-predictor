@@ -11,7 +11,7 @@
 
 ---
 
-## 📌 Executive Summary
+##  Executive Summary
 
 Customer churn is the silent growth killer for modern e-commerce platforms. Across our benchmark dataset of **5,630 e-commerce customers**, the baseline attrition rate is **16.8%**. Generic store-wide discounting fails because it gives margins away to customers who were never going to leave while failing to rescue truly endangered accounts.
 
@@ -19,7 +19,7 @@ Customer churn is the silent growth killer for modern e-commerce platforms. Acro
 
 ---
 
-## 🚀 Key Web Application Features
+## Key Web Application Features
 
 1. **Retention Predictor & Simulator (Tab 1)**:
    - **Real-time Speedometer Gauge**: Semicircular SVG dial with dynamic gradient track, animated needle, 4-tier risk threshold strip, and live risk percentage.
@@ -46,7 +46,7 @@ Customer churn is the silent growth killer for modern e-commerce platforms. Acro
 
 ---
 
-## 📊 Stage 6 & 7: Model Performance & Benchmarking
+##  Stage 6 & 7: Model Performance & Benchmarking
 
 All candidate algorithms were evaluated using **Stratified 5-Fold Cross-Validation** on the 5,630-record dataset:
 
@@ -78,7 +78,7 @@ All candidate algorithms were evaluated using **Stratified 5-Fold Cross-Validati
 
 ---
 
-## 💻 Tech Stack
+##  Tech Stack
 
 - **Backend & ML Serving**: Python 3.10+, FastAPI, Uvicorn, Pydantic v2, Scikit-Learn, Pandas, NumPy, Joblib
 - **Frontend**: Vanilla HTML5, Modern CSS3 (Dark Theme Design System), Vanilla JavaScript (ES6+)
@@ -86,7 +86,7 @@ All candidate algorithms were evaluated using **Stratified 5-Fold Cross-Validati
 
 ---
 
-## 🛠️ Local Installation & Setup
+##  Local Installation & Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -121,14 +121,14 @@ python app.py
 ```
 
 Open your browser at:  
-👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
+ **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
 Interactive API Swagger documentation is available at:  
-👉 **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)**
+ **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)**
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```text
 ├── app.py                             # FastAPI backend & inference engine (Stage 9)
@@ -149,7 +149,7 @@ Interactive API Swagger documentation is available at:
 
 ---
 
-## 📑 API Endpoints Summary
+##  API Endpoints Summary
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
@@ -162,7 +162,7 @@ Interactive API Swagger documentation is available at:
 
 ---
 
-## 🎓 Academic Coursework Reference
+##  Academic Coursework Reference
 
 - **Module**: IT3051 Fundamentals of Data Mining
 - **Project**: Customer Churn Prediction in E-Commerce
