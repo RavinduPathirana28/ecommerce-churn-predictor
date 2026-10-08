@@ -66,7 +66,7 @@ class CustomerInput(BaseModel):
 
 def preprocess_customer(data: CustomerInput) -> pd.DataFrame:
     """Transform raw customer input into the exact 33 features used during model training."""
-    raw_dict = data.dict()
+    raw_dict = data.model_dump() if hasattr(data, "model_dump") else data.dict()
     
     # 1. Track missingness for columns identified as MNAR in Stage 3 & 4
     tenure_val = raw_dict['Tenure']
@@ -319,6 +319,56 @@ def predict_churn(customer: CustomerInput):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
+@app.post("/api/predict/batch")
+def predict_batch(customers: List[CustomerInput]):
+    """Score multiple customer records concurrently in a single vectorized batch."""
+    if not customers:
+        raise HTTPException(status_code=400, detail="Customer list cannot be empty.")
+    if len(customers) > 500:
+        raise HTTPException(status_code=400, detail="Batch size exceeds maximum limit of 500 records.")
+
+    try:
+        dfs = []
+        contexts = []
+        for c in customers:
+            df_t, ctx = preprocess_customer(c)
+            dfs.append(df_t)
+            contexts.append(ctx)
+
+        df_batch = pd.concat(dfs, ignore_index=True)
+        probabilities = model.predict_proba(df_batch)[:, 1]
+        predictions = model.predict(df_batch)
+
+        results = []
+        tier_counts = {"Critical Risk": 0, "High Risk": 0, "Moderate Risk": 0, "Low Risk": 0}
+
+        for i, (prob, pred, ctx) in enumerate(zip(probabilities, predictions, contexts)):
+            prob_float = float(prob)
+            insights = generate_insights_and_actions(prob_float, ctx)
+            tier = insights["risk_level"]
+            tier_counts[tier] = tier_counts.get(tier, 0) + 1
+
+            results.append({
+                "record_index": i,
+                "prediction": int(pred),
+                "prediction_label": "Churned" if pred == 1 else "Retained",
+                "churn_probability": round(prob_float, 4),
+                "churn_percentage": round(prob_float * 100, 2),
+                "risk_level": tier,
+                "badge_color": insights["badge_color"],
+                "summary": insights["summary"],
+                "top_risk_factors": [rf["factor"] for rf in insights["risk_factors"][:2]],
+                "priority_action": insights["recommended_actions"][0]["action"] if insights["recommended_actions"] else "None"
+            })
+
+        return {
+            "total_processed": len(results),
+            "tier_breakdown": tier_counts,
+            "predictions": results
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Batch prediction error: {str(e)}")
+
 @app.get("/api/presets")
 def get_presets():
     """Return privacy-compliant test personas for evaluation demonstrations."""
@@ -380,19 +430,19 @@ def get_presets():
             "data": {
                 "Tenure": 5.0,
                 "CityTier": 2,
-                "WarehouseToHome": 18.0,
-                "HourSpendOnApp": 3.0,
+                "WarehouseToHome": 20.0,
+                "HourSpendOnApp": 2.0,
                 "NumberOfDeviceRegistered": 3,
                 "SatisfactionScore": 3,
                 "NumberOfAddress": 3,
-                "Complain": 0,
-                "OrderAmountHikeFromlastYear": 14.0,
+                "Complain": 1,
+                "OrderAmountHikeFromlastYear": 12.0,
                 "CouponUsed": 1.0,
                 "OrderCount": 2.0,
-                "DaySinceLastOrder": 16.0,
-                "CashbackAmount": 155.0,
+                "DaySinceLastOrder": 10.0,
+                "CashbackAmount": 160.0,
                 "Gender": "Female",
-                "MaritalStatus": "Divorced",
+                "MaritalStatus": "Single",
                 "PreferredLoginDevice": "Mobile Phone",
                 "PreferredPaymentMode": "Debit Card",
                 "PreferedOrderCat": "Fashion"
@@ -431,16 +481,16 @@ def get_customers():
             "avatar": "#81",
             "segment": "Tier 2 Urban",
             "ltv": "$1,150",
-            "tenure_months": 1,
+            "tenure_months": 5,
             "orders": 2,
-            "complaint": 0,
+            "complaint": 1,
             "data": {
-                "Tenure": 1.0, "CityTier": 2, "WarehouseToHome": 18.0, "HourSpendOnApp": 3.0,
+                "Tenure": 5.0, "CityTier": 2, "WarehouseToHome": 20.0, "HourSpendOnApp": 2.0,
                 "NumberOfDeviceRegistered": 3, "SatisfactionScore": 3, "NumberOfAddress": 3,
-                "Complain": 0, "OrderAmountHikeFromlastYear": 14.0, "CouponUsed": 1.0,
-                "OrderCount": 2.0, "DaySinceLastOrder": 16.0, "CashbackAmount": 140.0,
-                "Gender": "Female", "MaritalStatus": "Divorced", "PreferredLoginDevice": "Mobile Phone",
-                "PreferredPaymentMode": "Cash on Delivery", "PreferedOrderCat": "Fashion"
+                "Complain": 1, "OrderAmountHikeFromlastYear": 12.0, "CouponUsed": 1.0,
+                "OrderCount": 2.0, "DaySinceLastOrder": 10.0, "CashbackAmount": 160.0,
+                "Gender": "Female", "MaritalStatus": "Single", "PreferredLoginDevice": "Mobile Phone",
+                "PreferredPaymentMode": "Debit Card", "PreferedOrderCat": "Fashion"
             }
         },
         {
@@ -562,12 +612,20 @@ def get_customers():
     # Evaluate exact probabilities from model
     for c in customers:
         try:
-            inp = CustomerInput(**c["data"])
+            customer_data = c.get("data")
+            if isinstance(customer_data, dict):
+                inp = CustomerInput.model_validate(customer_data)
+            else:
+                inp = CustomerInput()
             df_t, _ = preprocess_customer(inp)
             prob = float(model.predict_proba(df_t)[0][1])
             c["churn_risk"] = round(prob * 100, 1)
             if prob >= 0.70:
                 c["risk_tier"] = "Critical Risk"
+                c["tier_badge"] = "badge-crit"
+                c["avatar_color"] = "av-red"
+            elif prob >= 0.40:
+                c["risk_tier"] = "High Risk"
                 c["tier_badge"] = "badge-crit"
                 c["avatar_color"] = "av-red"
             elif prob >= 0.20:
