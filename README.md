@@ -1,4 +1,4 @@
-# 🛡️ ChurnGuard AI &bull; Enterprise Customer Retention Intelligence Platform
+#  ChurnGuard AI &bull; Enterprise Customer Retention Intelligence Platform
 
 > **IT3051 Fundamentals of Data Mining — Mini Project (Stages 1–10)**  
 > Production-grade E-Commerce Customer Churn Prediction and Decision Support System powered by **Tuned Gradient Boosting**.
