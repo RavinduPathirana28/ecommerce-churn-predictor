@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from typing import Optional, Dict, Any, List
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -643,6 +644,14 @@ def get_customers():
             c["avatar_color"] = "av-green"
 
     return customers
+
+# Favicon handler
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    fav_path = os.path.join(os.path.dirname(__file__), "static", "favicon.svg")
+    if os.path.exists(fav_path):
+        return FileResponse(fav_path, media_type="image/svg+xml")
+    raise HTTPException(status_code=404)
 
 # Mount static folder for frontend (Stage 10)
 static_dir = os.path.join(os.path.dirname(__file__), "static")
