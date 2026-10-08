@@ -57,7 +57,7 @@ All candidate algorithms were evaluated using **Stratified 5-Fold Cross-Validati
 | **Random Forest** (Baseline Bagging) | 94.94% | 94.48% | 74.28% | 83.03% | 0.9769 | Ensemble Bagging |
 | **Gradient Boosting** (Baseline Boosting) | 89.41% | 67.54% | 71.37% | 69.34% | 0.9148 | Default Params |
 | **Tuned Random Forest** (RandomizedSearchCV) | 95.03% | 94.81% | 74.54% | 83.38% | 0.9781 | Tuned Runner-Up |
-| **⭐ Tuned Gradient Boosting** *(Champion)* | **95.51%** | **90.56%** | **81.93%** | **85.97%** | **0.9729** | **Selected Champion** |
+| **⭐ Tuned Gradient Boosting** *(Best model)* | **95.51%** | **90.56%** | **81.93%** | **85.97%** | **0.9729** | **Selected Champion** |
 
 > **Held-Out Test Set Performance**: **ROC-AUC = 0.9992** | **Test F1 = 89.84%** | **Test Recall = 83.42%**
 
