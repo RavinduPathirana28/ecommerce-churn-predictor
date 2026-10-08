@@ -86,3 +86,29 @@ def test_api_predict_validation_error():
     }
     response = client.post("/api/predict", json=invalid_payload)
     assert response.status_code == 422
+
+def test_api_predict_batch():
+    """Verify batch scoring processes multiple customer profiles simultaneously."""
+    batch_payload = [
+        {
+            "Tenure": 1.0, "CityTier": 3, "Complain": 1, "CashbackAmount": 120.0
+        },
+        {
+            "Tenure": 24.0, "CityTier": 1, "Complain": 0, "CashbackAmount": 240.0
+        }
+    ]
+    response = client.post("/api/predict/batch", json=batch_payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total_processed"] == 2
+    assert "tier_breakdown" in data
+    assert len(data["predictions"]) == 2
+    assert data["predictions"][0]["record_index"] == 0
+    assert "churn_probability" in data["predictions"][0]
+    assert "risk_level" in data["predictions"][0]
+
+def test_api_predict_batch_empty():
+    """Verify empty batch request returns 400 Bad Request."""
+    response = client.post("/api/predict/batch", json=[])
+    assert response.status_code == 400
+
